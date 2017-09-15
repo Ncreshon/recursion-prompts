@@ -32,7 +32,6 @@ var sum = function(array, i = 0, result = 0) {
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array, result = [], i = 0, total = 0) {
-  
    
 };
 
@@ -75,20 +74,28 @@ var range = function (x, y, results = [], i = x) {
     if (x < y) {
 
         if (i === y) {
+            results.shift()
             return results;
         }
+        results.push(i)
+        
 
-        return range(x, y, results.concat(i), ++i)
+        return range(x, y, results, ++i)
 
 
-    } else if (x > y) {
+    }if (x > y) {
 
         if (i === y) {
+            results.shift()
             return results;
         }
+        results.push(i)
 
-        return range(x, y, results.concat(i), --i);
+        return range(x, y, results, --i);
     }
+    return results;
+
+    
 };
 
 // 7. Compute the exponent of a number.
@@ -150,7 +157,24 @@ var palindrome = function (string, rev = '', i = 0, results = false) {
 // modulo(5,2) // 1
 // modulo(17,5) // 2
 // modulo(22,6) // 4
-var modulo = function(x, y) {
+var modulo = function (x, y, i = x) {
+    if (i <= y) {
+
+        return i;
+    }
+    i = i - y;
+    if (i === y) {
+        i = 0;
+        return modulo(x, y, i)
+    } if (x < 0 && y < 0) {
+        i = i + y
+        return modulo(x, y, i)
+    }
+    if (x < 0) {
+        i = x
+        return i;
+     }
+    return modulo(x, y, i)
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
@@ -352,8 +376,6 @@ var flatten = function(arrays, result = []) {
          }
      });
      return result;
-
-
 };
 
 // 30. Given a string, return an object containing tallies of each letter.
