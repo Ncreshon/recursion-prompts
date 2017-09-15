@@ -31,7 +31,8 @@ var sum = function(array, i = 0, result = 0) {
 
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
-var arraySum = function(array, i = 0, results = 0) {
+var arraySum = function(array, result = [], i = 0, total = 0) {
+  
    
 };
 
@@ -191,7 +192,25 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('', '') // true
 // compareStr('tomato', 'tomato') // true
-var compareStr = function(str1, str2) {
+var compareStr = function (str1, str2, i = 0, result = false) {
+    if (i === str2.length + 1) {
+        return result;
+    }
+
+    if (str1.length === 0 && str2.length === 0) {
+        result = true;
+        return compareStr(str1, str2, ++i, result)
+    }
+
+    if (str1[i] !== str2[i] || str1.length !== str2.length) {
+        result = false;
+        return compareStr(str1, str2, ++i, result)
+    }
+    if (str1[i] === str2[i]) {
+        result = true;
+        return compareStr(str1, str2, ++i, result)
+    }
+
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
@@ -339,7 +358,17 @@ var flatten = function(arrays, result = []) {
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
-var letterTally = function(str, obj) {
+var letterTally = function (str, obj = {}, i = 0, count = 0, ) {
+
+    if (i === str.length) {
+        return obj;
+    }
+    obj[str[i]] = (obj[str[i]] || 0) + 1
+
+
+    return letterTally(str, obj, ++i);
+
+
 };
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
@@ -352,7 +381,7 @@ var compress = function (list, i = 0, results = []) {
         return results;
     }
     var current = list[i];
-    if (results.indexOf(current) < 0) results.push(current);
+    if (current !== list[i +1]) results.push(current);
     return compress(list, ++i, results);
 };
 
@@ -365,7 +394,22 @@ var augmentElements = function(array, aug) {
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
+var minimizeZeroes = function (array, i = 0, results = []) {
+    if (i === array.length) {
+        console.log(results)
+        return results;
+    }
+    if (array[i] !== 0) {
+        results.push(array[i])
+        return minimizeZeroes(array, ++i, results)
+
+    } if (array[i] === 0 && array[i + 1] !== 0) {
+        if (results[i - 1] !== 0) {
+            results.push(array[i])
+            return minimizeZeroes(array, ++i, results)
+        }
+    }
+    return minimizeZeroes(array, ++i, results)
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
