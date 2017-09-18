@@ -31,8 +31,24 @@ var sum = function(array, i = 0, result = 0) {
 
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
-var arraySum = function(array, result = [], i = 0, total = 0) {
-   
+var arraySum = function (array, i = 0, total = 0) {
+    var results = function (arrays, result = []) {
+        arrays.forEach(function (arr) {
+            if (Array.isArray(arr)) {
+                flatten(arr, result);
+            } else {
+                result.push(arr);
+            }
+        });
+        return result;
+    }(array);
+
+    if (i > results.length - 1) {
+        return total
+    }
+
+    total = total + results[i]
+    return arraySum(array, ++i, total)
 };
 
 // 4. Check if a number is even.
@@ -198,10 +214,7 @@ var multiply = function (x, y, results = 0, i = 0, time = 0) {
     return multiply(x, y, results, ++i, time)
 };
 
-// 13. Write a function that divides two numbers without using the / operator  or
-// JavaScript's Math object.
-var divide = function(x, y) {
-};
+
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
@@ -320,7 +333,31 @@ var replaceKeysInObj = function(obj, key, newKey) {
 // Example:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34.....
 // fibonacci(5);  // [0, 1, 1, 2, 3, 5]
 // Note:  The 0 is not counted.
-var fibonacci = function(n) {
+var fibonacci = function (n, i = 0, results = [], j = 1) {
+    if (i === n + 1) {
+        return results
+    }
+    if (n <= 0) {
+        return null;
+    }
+
+    if (results.length < 2) {
+        results.push(i)
+        //console.log(results.length, results, i)
+        //j = i + results[i] 
+        return fibonacci(n, ++i, results, j)
+    } else {
+
+        results.push(j)
+        //console.log(results, i)
+
+        j = results[i - 1] + results[i]
+        console.log(results)
+
+        return fibonacci(n, ++i, results, j)
+    }
+
+
 };
 
 // 25. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -328,7 +365,31 @@ var fibonacci = function(n) {
 // nthFibo(5); // 5
 // nthFibo(7); // 13
 // nthFibo(3); // 2
-var nthFibo = function(n) {
+var nthFibo = function (n, i = 0, results = [], j = 1) {
+    if (i === n + 1) {
+        return results[n]
+    }
+    if (n < 0) {
+        return null;
+    }
+
+    if (results.length < 2) {
+        results.push(i)
+        //console.log(results.length, results, i)
+        //j = i + results[i] 
+        return nthFibo(n, ++i, results, j)
+    } else {
+
+        results.push(j)
+        //console.log(results, i)
+
+        j = results[i - 1] + results[i]
+        // console.log(results)
+
+        return nthFibo(n, ++i, results, j)
+    }
+
+
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
@@ -410,7 +471,17 @@ var compress = function (list, i = 0, results = []) {
 // 32. Augument every element in a list with a new value where each element is an array
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
-var augmentElements = function(array, aug) {
+var augmentElements = function (array, aug, i = 0, result = []) {
+    if (i > array.length - 1) {
+        return result;
+    }
+
+    result.push(array[i])
+
+    array[i].push(aug)
+
+    return augmentElements(array, aug, ++i, result)
+
 };
 
 // 33. Reduce a series of zeroes to a single 0.
@@ -438,13 +509,48 @@ var minimizeZeroes = function (array, i = 0, results = []) {
 // their original sign.  The first number in the index always needs to be positive.
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
-var alternateSign = function(array) {
+var alternateSign = function (array, i = 0, results = []) {
+    if (i > array.length - 1) {
+        return results;
+    }
+    if (i % 2 !== 0) {
+        if (array[i] < 0) {
+            results.push(array[i])
+            return alternateSign(array, ++i, results)
+
+        } else {
+            results.push(array[i] * -1)
+            return alternateSign(array, ++i, results)
+        }
+    }
+
+    if (array[i] < 0) {
+        results.push(array[i] * -1)
+        return alternateSign(array, ++i, results)
+    }
+
+    results.push(array[i])
+    return alternateSign(array, ++i, results)
+
+
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
-var numToText = function(str) {
+var numToText = function (str, i = 0, result = str.split(' ')) {
+    var words = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+    if (i > result.length - 1) {
+        return result.join(" ")
+    }
+
+    if (Number(result[i]) || Number(result[i]) === 0) {
+        console.log(i)
+        result[i] = words[Number(result[i])]
+
+    }
+    return numToText(str, ++i, result)
 };
 
 // *** EXTRA CREDIT ***
