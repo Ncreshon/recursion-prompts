@@ -120,8 +120,18 @@ var range = function (x, y, results = [], i = x) {
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function (base, exp, i = 0, results = 1) {
+    if (exp < 0) {
+        if (i === exp * -1) {
+            return results;
+        }
+    }
     if (i === exp) {
         return results;
+    }
+    if (exp < 0) {
+        results = results / base
+
+        return exponent(base, exp, ++i, results)
     }
     results = results * base;
     return exponent(base, exp, ++i, results);
