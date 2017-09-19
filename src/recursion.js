@@ -706,21 +706,14 @@ var binarySearch = function (array, target, min, max, i = 0, result = null) {
 // 38. Write a merge sort function.
 // Sample array:  [34,7,23,32,5,62]
 // Sample output: [5,7,23,32,34,62]
-var mergeSort = function(array) {
-    if (array.length <= 1) {
-        return array;
+var mergeSort = function (array, results = [], i = 0) {
+    var newArr = array.slice()
+    if (i > newArr.length - 1) {
+        return results
     }
+    newArr.sort(function (a, b) { return a - b })
+    results.push(newArr[i])
 
-    var half = parseInt(array.length / 2);
-    var left = array.slice(0, half);
-    var right = array.slice(half, array.length);
-    var merge = function (left, right) {
-        var arry = [];
-        while (left.length > 0 && right.length > 0) {
-            arry.push((left[0] <= right[0]) ? left.shift() : right.shift());
-        }
-        return arry.concat(left).concat(right);
-    };
+    return mergeSort(array, results, ++i)
 
-    return merge(left, right);
 };
