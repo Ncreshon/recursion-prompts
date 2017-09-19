@@ -183,24 +183,30 @@ var palindrome = function (string, rev = '', i = 0, results = false) {
 // modulo(5,2) // 1
 // modulo(17,5) // 2
 // modulo(22,6) // 4
-var modulo = function (x, y, i = x) {
-    if (i <= y) {
+var modulo = function (x, y, i = x, times = x) {
+    if (x === 0 && y === 0) {
+        return NaN
+    }
+    if (i <= y || i <= 0) {
+        console.log(i)
+        return times;
+    }
 
-        return i;
-    }
-    i = i - y;
-    if (i === y) {
-        i = 0;
-        return modulo(x, y, i)
-    } if (x < 0 && y < 0) {
+    if (x < 0 && y > 0) {
         i = i + y
-        return modulo(x, y, i)
+        times = times + y
+        return modulo(x, y, i, times)
     }
-    if (x < 0) {
-        i = x
-        return i;
-     }
-    return modulo(x, y, i)
+
+    if (x < 0 && y < x) {
+
+        return x;
+    }
+
+    i = x
+    times = times - y
+    i = i - y
+    return modulo(x, y, i, times)
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
@@ -362,19 +368,77 @@ var rMap = function (array, callback, result = [], i = 0) {
 // var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 // countKeysInObj(testobj, 'r') // 1
 // countKeysInObj(testobj, 'e') // 2
-var countKeysInObj = function(obj, key) {
+var countKeysInObj = function (obj, key, counter = 0) {
+
+    for (var k in obj) {
+
+        if (k === key) {
+
+            ++counter
+        }
+
+        if (typeof obj[k] === "object") {
+
+            counter = countKeysInObj(obj[k], key, counter);
+
+        }
+    }
+
+    return counter
+
 };
+
 
 // 22. Write a function that counts the number of times a value occurs in an object.
 // var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 // countValuesInObj(testobj, 'r') // 2
 // countValuesInObj(testobj, 'e') // 1
-var countValuesInObj = function(obj, value) {
+var countValuesInObj = function (obj, key, counter = 0) {
+
+    for (var k in obj) {
+
+        if (obj[k] === key) {
+
+            ++counter
+        }
+
+        if (typeof obj[k] === "object") {
+
+            counter = countValuesInObj(obj[k], key, counter);
+
+        }
+    }
+
+    return counter
+
 };
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
-var replaceKeysInObj = function(obj, key, newKey) {
+var replaceKeysInObj = function (obj, key, newKey) {
+    for (var k in obj) {
+
+        if (k === key) {
+            //console.log(k)
+            // k = newKey
+            obj[newKey] = obj[key]
+            delete obj[k]
+
+
+        }
+
+        if (typeof obj[k] === "object") {
+
+            replaceKeysInObj(obj[k], key, newKey);
+
+        }
+    }
+
+    return obj
+
+
+
+
 };
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent
@@ -472,7 +536,23 @@ var capitalizeFirst = function (array, results = [], i = 0, total = '') {
 //   e: {e: {e: 2}, ee: 'car'}
 // };
 // nestedEvenSum(obj1); // 10
-var nestedEvenSum = function(obj) {
+var nestedEvenSum = function (obj, key, count = 0) {
+    for (var k in obj) {
+
+        if (obj[k] % 2 === 0) {
+
+            count = obj[k] + count
+        }
+
+        if (typeof obj[k] === "object") {
+
+            count = nestedEvenSum(obj[k], key, count);
+
+        }
+    }
+
+    return count
+
 };
 
 // 29. Flatten an array containing nested arrays.
