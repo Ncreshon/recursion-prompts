@@ -229,22 +229,19 @@ var multiply = function (x, y, results = 0, i = 0, time = 0) {
 // JavaScript's Math object.
 var divide = function (x, y, result = x, times = x, counter = 0) {
 
-    if (y < 0) {
-        times = y * -1
+   
+    if (x === 0 && y === 0) {
+
+        return NaN;
     }
-
-
-    if (x === 0 || y === 0) {
-
+    if (x <= 0 ) {
         return 0
     }
-
-
+    if (y === 0) {
+        return 0
+    }
     if (times <= 0) {
-        if (x === 0 && y === 0) {
-
-            return null;
-        } else if (times < 0) {
+          if (times < 0) {
             counter = counter - 1
             return counter
         } else {
