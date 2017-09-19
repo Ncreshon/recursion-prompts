@@ -225,6 +225,40 @@ var multiply = function (x, y, results = 0, i = 0, time = 0) {
 };
 
 
+// 13. Write a function that divides two numbers without using the / operator  or
+// JavaScript's Math object.
+var divide = function (x, y, result = x, times = x, counter = 0) {
+
+    if (y < 0) {
+        times = y * -1
+    }
+
+
+    if (x === 0 || y === 0) {
+
+        return 0
+    }
+
+
+    if (times <= 0) {
+        if (x === 0 && y === 0) {
+
+            return null;
+        } else if (times < 0) {
+            counter = counter - 1
+            return counter
+        } else {
+            return counter;
+        }
+    }
+
+
+    result = result - y
+    times = times - y
+
+    return divide(x, y, result, times, ++counter)
+
+};
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
 // integers is the greatest integer that divides both x and y with no remainder.
@@ -232,6 +266,14 @@ var multiply = function (x, y, results = 0, i = 0, time = 0) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+    if(x < 0 || y < 0){
+        return null
+    }
+    if (!y) {
+        return x;
+    }
+
+    return gcd(y, x % y);
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
@@ -580,4 +622,20 @@ var binarySearch = function(array, target, min, max) {
 // Sample array:  [34,7,23,32,5,62]
 // Sample output: [5,7,23,32,34,62]
 var mergeSort = function(array) {
+    if (array.length <= 1) {
+        return array;
+    }
+
+    var half = parseInt(array.length / 2);
+    var left = array.slice(0, half);
+    var right = array.slice(half, array.length);
+    var merge = function (left, right) {
+        var arry = [];
+        while (left.length > 0 && right.length > 0) {
+            arry.push((left[0] <= right[0]) ? left.shift() : right.shift());
+        }
+        return arry.concat(left).concat(right);
+    };
+
+    return merge(left, right);
 };
