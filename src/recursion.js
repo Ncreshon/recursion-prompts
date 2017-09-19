@@ -692,7 +692,15 @@ var tagCount = function(tag, node) {
 // Sample array:  [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 // console.log(binarySearch(5)) will return '5'
 
-var binarySearch = function(array, target, min, max) {
+var binarySearch = function (array, target, min, max, i = 0, result = null) {
+    if (i > array.length) {
+        return result
+    }
+
+    if (array[i] === target) {
+        result = i
+    }
+    return binarySearch(array, target, min, max, ++i, result)
 };
 
 // 38. Write a merge sort function.
