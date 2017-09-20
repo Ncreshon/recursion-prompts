@@ -183,30 +183,99 @@ var palindrome = function (string, rev = '', i = 0, results = false) {
 // modulo(5,2) // 1
 // modulo(17,5) // 2
 // modulo(22,6) // 4
-var modulo = function (x, y, i = x, times = x) {
+var modulo = function (x, y, i = x) {
+
+    
     if (x === 0 && y === 0) {
         return NaN
     }
-    if (i <= y || i <= 0) {
-        console.log(i)
-        return times;
+
+    if (x === 0 || y === 0) {
+        return 0
+    }
+
+    
+    if (x < 0 && y < 0) {
+        if (x > y) {
+            return x
+        }
+
+    }
+
+
+    
+    if (x < 0 && y < 0) {
+        if (i > y) {
+            return i
+        }
+        
+        if (y > x) {
+
+            i = i - y
+            return modulo(x, y, i)
+
+        } else if (x > y) {
+            return x
+        }
+
+    }
+
+    
+
+    if (x > 0 && y > 0) {
+        if (x > y) {
+            if (i <= 0) {
+                if (i < 0) {
+                    return i + y
+                } else {
+                    return i
+                }
+            }
+        }
+    }
+
+    
+    if (x > 0 && y > 0) {
+        if (x > y) {
+            if (i <= 0) {
+                if (i < 0) {
+                    return i + y
+                } else {
+                    return i
+                }
+            }
+            else {
+                i = i - y
+                return modulo(x, y, i)
+            }
+        } else if (y > x) {
+            return x
+        }
+    }
+
+    
+    if (x > 0 && x < y) {
+        return x
     }
 
     if (x < 0 && y > 0) {
+        if (i >= 0) {
+            if (i > 0) {
+                return i - y
+            }
+            else {
+                return i
+            }
+        }
         i = i + y
-        times = times + y
-        return modulo(x, y, i, times)
+        return modulo(x, y, i)
     }
 
-    if (x < 0 && y < x) {
 
-        return x;
-    }
 
-    i = x
-    times = times - y
-    i = i - y
-    return modulo(x, y, i, times)
+
+
+
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
@@ -423,8 +492,6 @@ var replaceKeysInObj = function (obj, key, newKey) {
             // k = newKey
             obj[newKey] = obj[key]
             delete obj[k]
-
-
         }
 
         if (typeof obj[k] === "object") {
@@ -686,6 +753,8 @@ var numToText = function (str, i = 0, result = str.split(' ')) {
 
 // 36. Return the number of times a tag occurs in the DOM.
 var tagCount = function(tag, node) {
+    return document.getElementsByTagName(tag).length
+    
 };
 
 // 37. Write a function for binary search.
